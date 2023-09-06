@@ -19,7 +19,6 @@ const accountSlice = createSlice({
       state.balance -= action.payload;
     },
 
-
     requestLoan: {
       prepare(amount, purpose) {
         return {
@@ -35,8 +34,6 @@ const accountSlice = createSlice({
       },
     },
 
-
-    
     payLoan(state, action) {
       state.balance -= state.loan;
       state.loan = 0;
@@ -56,11 +53,10 @@ export function deposit(amount, currency) {
   return async function (dispatch, getState) {
     dispatch({ type: "account/convertingCurrency" });
     // API Call
-    const host = "api.frankfurter.app";
     const res = await fetch(
-      `https://${host}/latest?amount=${amount}&from=${currency}&to=USD`
+      `https://api.frankfurter.app/latest?amount=${amount}&from=${currency}&to=USD`
     );
-    const data = res.json();
+    const data = await res.json();
     const converted = data.rates.USD;
 
     // return action
